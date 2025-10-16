@@ -1,0 +1,129 @@
+{
+  "collections": [
+    {
+      "collection": "products",
+      "meta": {
+        "icon": "box",
+        "note": "Main products table",
+        "display_template": "{{name_en}}"
+      },
+      "fields": [
+        {
+          "field": "id",
+          "type": "uuid",
+          "meta": { "special": ["uuid"], "readonly": true }
+        },
+        {
+          "field": "name_en",
+          "type": "string",
+          "meta": { "interface": "input", "required": true }
+        },
+        {
+          "field": "description_en",
+          "type": "text",
+          "meta": { "interface": "textarea" }
+        },
+        {
+          "field": "thumbnail",
+          "type": "uuid",
+          "meta": {
+            "interface": "file-image",
+            "special": ["file"]
+          }
+        },
+        {
+          "field": "variants",
+          "type": "alias",
+          "meta": {
+            "special": ["o2m"],
+            "interface": "list-o2m",
+            "options": { "fields": ["sku", "price", "quantity"] },
+            "note": "All product variants"
+          },
+          "schema": {
+            "foreign_key_table": "product_variants",
+            "foreign_key_column": "product_id"
+          }
+        },
+        {
+          "field": "images",
+          "type": "alias",
+          "meta": {
+            "special": ["o2m"],
+            "interface": "list-o2m",
+            "options": { "fields": ["image"] },
+            "note": "Gallery of product images"
+          },
+          "schema": {
+            "foreign_key_table": "product_images",
+            "foreign_key_column": "product_id"
+          }
+        }
+      ]
+    },
+    {
+      "collection": "product_variants",
+      "meta": {
+        "icon": "layers",
+        "note": "Variants linked to products",
+        "display_template": "{{sku}}"
+      },
+      "fields": [
+        {
+          "field": "sku",
+          "type": "string",
+          "meta": { "interface": "input", "required": true }
+        },
+        {
+          "field": "price",
+          "type": "decimal",
+          "meta": { "interface": "input" }
+        },
+        {
+          "field": "quantity",
+          "type": "integer",
+          "meta": { "interface": "input" }
+        },
+        {
+          "field": "options",
+          "type": "alias",
+          "meta": {
+            "special": ["o2m"],
+            "interface": "list-o2m",
+            "options": { "fields": ["name"] }
+          },
+          "schema": {
+            "foreign_key_table": "variant_options",
+            "foreign_key_column": "product_id"
+          }
+        },
+        {
+          "field": "values",
+          "type": "alias",
+          "meta": {
+            "special": ["o2m"],
+            "interface": "list-o2m",
+            "options": { "fields": ["value"] }
+          },
+          "schema": {
+            "foreign_key_table": "variant_values",
+            "foreign_key_column": "variant_id"
+          }
+        },
+        {
+          "field": "images",
+          "type": "alias",
+          "meta": {
+            "special": ["o2m"],
+            "interface": "list-o2m",
+            "options": { "fields": ["file"] }
+          },
+          "schema": {
+            "foreign_key_table": "variant_images",
+            "foreign_key_column": "variant_id"
+          }
+        }
+      ]
+    }
+  ]
+}
